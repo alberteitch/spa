@@ -13,6 +13,8 @@
 			}
 			body{
 				font-weight:200;
+				background:#efefef;
+
 			}
 			li{float:left;
 				display:block;}
@@ -30,6 +32,7 @@
 				padding-left:20px;
 				padding-right:20px;
 				background:#efefef;
+				border:none;
 			}
 			.sub-panel{
 				margin:0px auto;
@@ -299,8 +302,11 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 							<tr class="panel-item" ng-repeat="task in tasks |filter:project.name|filter:project.uid|filter:feature.name|filter:feature.uid| filter:tasksearch">
 								<td class="panel-td" >
 
-								<input  ng-class="" ng-model="task.name" ng-click="alertshow(task.name)" class="item_display">
+								<input  ng-class="" ng-model="task.name" ng-click="alertshow(task.name)" class="item_display" ng-show="completed" style="text-decoration:line-through;" >
+								<input  ng-class="" ng-model="task.name" ng-click="alertshow(task.name)" class="item_display" ng-show="!completed">
 								<!--inline delete button--><button class="inline-del" ng-click="deltaskinline(task)" ><i class="glyphicon glyphicon-trash"></i></button>
+
+								<!--inline Complete button--><button class="inline-del" ng-click="completed=!completed" ><i class="glyphicon glyphicon-check" ng-show="completed" style="font-size:20px;color:green;"></i><i class="glyphicon glyphicon-flag" ng-show="!completed" style="font-size:20px;"></i></button>
 
 								</td>
 							</tr>
@@ -321,7 +327,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 
 </div>
-<span ng-bind="message">message</span>
+
 </div>
 
 		<script> //document.write('This is the javascript starting point.');</script>
