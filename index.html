@@ -1,0 +1,484 @@
+<!doctype html>
+<html ng-app="PMTool">
+	<head>
+		<meta charset="UTF8">
+		<title>PMTool</title>
+
+			<link href="css/bootstrap.css" rel="stylesheet">
+		<style>
+			.done{
+				font-style: line-through;
+				color:#aaa;
+
+			}
+			body{
+				font-weight:200;
+			}
+			li{float:left;
+				display:block;}
+			.container{
+				background:none;
+				text-align:center;
+			}
+			.panel{
+				margin:0px auto;
+				margin-top:0px;
+				margin-bottom:20px;
+				max-width:400px;
+				min-height:500px;
+				border-radius:0px;
+				padding-left:20px;
+				padding-right:20px;
+				background:#efefef;
+			}
+			.sub-panel{
+				margin:0px auto;
+				margin-top:5px;
+				margin-bottom:20px;
+				max-width:380px;
+				min-height:450px;
+				border-radius:20px;
+				border:thin solid #333;
+				background:#fff;
+				padding-top:2px;
+			}
+			.header{
+				font-size:30px;
+				margin-top:10px;
+				margin-bottom:5px;
+				dispay:inline;
+
+			}
+			.panel-table{
+				width:100%;
+
+			}
+			.panel-item{
+				border-bottom:thin solid #aaa;
+				list-style: none;
+				width:100%;
+				line-height:50px;
+
+
+			}
+			.panel-td{
+				text-align: left;
+				padding-left:10px;
+				font-size:35px;
+			}
+			.title-box{
+				font-weight:400;
+				padding-left:5px;
+				background:none !important;
+
+			}
+			.title-container{background:red;display:inline;width:100px;margin-bottom:5px !important;}
+			.search-icon-container{
+				background:none;
+				width:50px;
+				display:inline;
+				float:right;
+			}
+			.back-btn-container{
+				background:none;
+				display:inline;
+
+				float:right;}
+			.item_display{
+				width:70%;
+				margin-right:10px;
+				text-align:left;
+				border:none;
+				background:none;
+			}
+			.marker{
+				background:#5f5f5f;
+				border-bottom-right-radius:20px;
+				border-bottom-left-radius:20px;
+				padding:5px;
+				color:#fff;
+				margin-bottom:15px;
+			}
+			.search-icon{
+				font-size:20px;
+				color:#999;
+			}
+			.backtxt{
+				font-family: arial;
+font-size: 18px;
+line-height: normal;
+margin-right: 5px;
+			}
+			.title-text{
+
+			}
+			.new-input{
+				height:54px;
+				float:left;
+				border:none;
+				margin-top:5px;
+				font-size:25px;
+				width: 280px;
+				background:none;
+
+			}
+			.new-icon{
+				color: green;
+				font-size: 28px;
+				float: right;
+				margin-top: 5px;
+			}
+			.inline-del{
+				margin-right:15px;
+				float:right;
+				background:none !important;
+				border:none !important;
+				font-size:15px;
+				color:#999;
+			}
+		</style>
+
+
+	</head>
+	<body>
+
+
+		<div class="container" ng-controller="PMToolcontroller">
+
+				<div class="row">
+
+						<div class="panel panel-default" ng-show="mainshow" >
+							<div class="marker" style="background:#337ab7;" >Projects</div>
+							<div style="margin-top:10px;margin-bottom:10px;border:thin solid #aaa;height:50px;padding:10px;border-radius:5px;background:#cacaca">
+
+									<div class="title-container"  >
+
+									<input type="text" ng-model="projectsearch" value="" size="25" class="" placeholder="search" style="margin-right:10px;padding-left:10px;font-size:17px;float:left;background:#fff;border-radius:20px;border:thin solid #aaa;width:100%;" 	>
+									</div>
+
+						 </div>
+
+							<div class="header" style="height:50px;">
+
+							<div>
+									<div class="title-container">
+										<span type="text" value="" size="14" class="title-box" style="float:left;border:none;background:#efefef;width:200px;text-align:left;">Projects</span>
+									</div>
+									<div class="search-icon-container">
+
+									</div>
+
+
+						 </div>
+
+					 </div>
+
+								<div class="sub-panel">
+
+										<table class="panel-table">
+											<tr class="panel-item" ng-repeat="project in projects| filter:projectsearch">
+												<td class="panel-td" >
+
+												<button  ng-model="project.name" ng-click="showproject(project)" class="item_display"> {{project.name}}</button>
+												<!--inline delete button--><button class="inline-del" ng-click= "delprojectinline(project)"><i class="glyphicon glyphicon-trash"></i></button>
+											</td>
+											</tr>
+											<tr class="panel-item" >
+												<td class="panel-td" style="overflow:hidden;">
+													<form name="frm" ng-submit="addproject()">
+														<input type="text" name="newproject" class="new-input" ng-model="vars.newproject" placeholder="Add Project Here..." size="18" style="" required>
+														<button ng-disabled="frm.$invalid" style="padding:0px;border: none;margin: 13px;background: none;"><i class="glyphicon glyphicon-plus-sign new-icon" ></i></button>
+
+													</form>
+
+											</td>
+											</tr>
+										</table>
+								</div>
+						</div>
+				</div>
+		<!---		<button ng-click="clear()">Clear Completed Tasks</button>
+
+
+ #############################################--->
+<div class="row" ng-repeat="project in projects" >
+
+		<div class="panel panel-default" ng-show="project.show">
+			<div class="marker" style="background:#5bc0de;">Project : {{project.name}} > Features</div>
+			<div style="margin-top:10px;margin-bottom:10px;border:thin solid #aaa;height:50px;padding:10px;border-radius:5px;background:#cacaca;">
+
+
+					<div class="title-container"  >
+						<table>
+						<tr><td>
+						<button ng-click="showmain(project)"class="" style="font-size:15px;float:left;background:#337ab7;border-radius:20px;border:thin solid #eee;margin-right:10px;"><i class="glyphicon glyphicon-chevron-left" style="color:#fff;width:65px;"><span class="backtxt">BACK</span></i></button>
+					</td><td>
+					<input type="text" ng-model="featuresearch" value="" size="23" class="" placeholder="search" style="margin-right:10px;padding-left:10px;font-size:17px;float:left;background:#fff;border-radius:20px;border:thin solid #aaa;width: 220px;" 	>
+				</td></tr>
+				</table></div>
+		 </div>
+
+			<div class="header" style="height:50px;">
+
+			<div>
+					<div class="title-container">
+						<input type="text" value="" size="14" ng-model="project.name" class="title-box" style="float:left;border:none;background:#efefef;" >
+					</div>
+					<div class="search-icon-container">
+						<button style="border:none;background:none;" ng-click="delproject(project)"><i class="glyphicon glyphicon-trash search-icon" style="margin-top:5px;"></i></button>
+					</div>
+
+
+		 </div>
+
+	 </div>
+				<div class="sub-panel">
+
+						<table class="panel-table" >
+							<tr class="panel-item" ng-repeat="feature in features| filter:project.name |filter:project.uid | filter:featuresearch">
+								<td class="panel-td" >
+
+								<button   ng-model="feature.name" ng-class="" ng-click="showfeature(project,feature)" class="item_display">{{feature.name}}</button>
+								<!--inline delete button--><button class="inline-del" ng-click="delfeatureinline(feature)" ><i class="glyphicon glyphicon-trash"></i></button>
+
+								</td>
+							</tr>
+							<tr class="panel-item" >
+								<td class="panel-td" style="overflow:hidden;">
+									<form name="frmfeature" ng-submit="addfeature(project)">
+										<input type="text" name="new"  class="new-input" ng-model="vars.newfeature" placeholder="Add Feature Here..." size="23" style="" novalidate ng-required="required">
+										<button ng-disabled="frmfeature.$invalid" style="padding:0px;border: none;margin: 13px;background: none;"><i class="glyphicon glyphicon-plus-sign new-icon" ></i></>
+									</form>
+							</td>
+							</tr>
+						</table>
+				</div>
+		</div>
+
+
+<!--<button ng-click="clear()">Clear Completed Tasks</button>
+$$$$$$$$$$$$$$$$$$$$$$$$$$-->
+<!--- #############################################--->
+<div class="row" ng-repeat="feature in features |filter:project.name|filter:project.uid|filter:feature.name|filter:feature.uid">
+
+		<div class="panel panel-default" ng-show="feature.show">
+			<div class="marker" style="background:#337ab7;">Project : {{project.name}} > Feature : {{feature.name}} > Tasks</div>
+			<div style="margin-top:10px;margin-bottom:10px;border:thin solid #aaa;height:50px;padding:10px;border-radius:5px;background:#cacaca;">
+
+
+					<div class="title-container"  >
+						<table>
+						<tr><td>
+						<button ng-click="showfeature(project,feature)"class="" style="font-size:15px;float:left;background:#337ab7;border-radius:20px;border:thin solid #eee;margin-right:10px;"><i class="glyphicon glyphicon-chevron-left" style="color:#fff;width:65;"><span class="backtxt">BACK</span></i></button>
+					</td><td>
+					<input type="text" ng-model="tasksearch" value="" size="23" class="" placeholder="search" style="margin-right:10px;padding-left:10px;font-size:17px;float:left;background:#fff;border-radius:20px;border:thin solid #aaa;width:220px;" 	>
+					</td></tr>
+				</table>
+					</div>
+
+		 </div>
+
+			<div class="header" style="height:50px;">
+
+			<div>
+					<div class="title-container">
+						<input type="text" value="{{feature.name}}" ng-model="feature.name" size="14" class="title-box" style="float:left;border:none;background:#efefef;">
+
+					</div>
+					<div class="search-icon-container">
+						<button style="border:none;background:none;" ng-click="delfeature(project,feature)"><i class="glyphicon glyphicon-trash search-icon" style="margin-top:5px;"></i></button>
+					</div>
+
+
+		 </div>
+
+	 </div>
+				<div class="sub-panel">
+
+						<table class="panel-table">
+							<tr class="panel-item" ng-repeat="task in tasks |filter:project.name|filter:project.uid|filter:feature.name|filter:feature.uid| filter:tasksearch">
+								<td class="panel-td" >
+
+								<input  ng-class="" ng-model="task.name" ng-click="alertshow(task.name)" class="item_display">
+								<!--inline delete button--><button class="inline-del" ng-click="deltaskinline(task)" ><i class="glyphicon glyphicon-trash"></i></button>
+
+								</td>
+							</tr>
+							<tr class="panel-item" >
+								<td class="panel-td" style="overflow:hidden;">
+									<form name="frm" ng-submit="addtask(project,feature)">
+										<input type="text" name="newtask" class="new-input" ng-model="vars.newtask" placeholder="Add Task Here..." size="25" style="" required>
+										<button ng-disabled="frm.$invalid" style="padding:0px;border: none;margin: 13px;background: none;"><i class="glyphicon glyphicon-plus-sign new-icon" ></i></>
+									</form>
+							</td>
+							</tr>
+						</table>
+				</div>
+		</div>
+</div>
+
+<!--<button ng-click="clear()">Clear Completed Tasks</button>
+$$$$$$$$$$$$$$$$$$$$$$$$$$-->
+
+</div>
+<span ng-bind="message">message</span>
+</div>
+
+		<script> //document.write('This is the javascript starting point.');</script>
+
+		<script src="js/angular.min.js"></script>
+
+		<script>
+
+		angular.module('PMTool',[]).
+		controller('PMToolcontroller',['$scope',function($scope){
+
+
+			/*$scope.projects=[
+			{name:'project1',
+				features:[{
+					name:'1 feature 1',
+						tasks:[{
+							name:'1 task 1'},{
+							name:'1 task 2'
+							}]
+						}
+					]
+				}
+			]*/
+			$scope.projects=[]
+			$scope.features=[]
+			$scope.tasks=[]
+			$scope.vars=[]
+			$scope.mainshow=true;
+			$scope.message='';
+
+			//////////////////////////////////
+			$scope.deltaskinline = function(task){
+				var index=$scope.tasks.indexOf(task);
+				$scope.tasks.splice(index,1);
+				//$scope.message="deltaskinline"+index;
+			};
+			$scope.delfeatureinline = function(feature){
+				var index=$scope.features.indexOf(feature);
+				$scope.features.splice(index,1);
+				$scope.tasks.splice(index,1);
+				//$scope.message="deltaskinline"+index;
+			};
+			$scope.delprojectinline = function(project){
+				var index=$scope.projects.indexOf(project);
+				$scope.projects.splice(index,1);
+				$scope.features.splice(index,1);
+				$scope.tasks.splice(index,1);
+				//$scope.message="deltaskinline"+index;
+			};
+			//////////////////////////////////
+			$scope.showproject = function(project){
+				project.show=!project.show;
+				$scope.mainshow=false;
+				$scope.index=project.show;
+			};
+			$scope.showfeature= function(project,feature){
+				feature.show=!feature.show;
+				project.show=!project.show;
+
+			};
+			$scope.showmain = function(project){
+				project.show=!project.show;
+				$scope.mainshow=true;
+				$scope.index=project.show;
+			};
+
+			/////////////////////////
+		//	consolelog($scope.testarray);
+			////////////////////////////////
+			$scope.addproject = function(){
+				$scope.projects.push({'name': $scope.vars.newproject,'show':false,'uid': Math.random()}
+
+			);
+				//alert($scope.vars.newproject);
+
+
+/////////////////////////////////////////////////
+
+				$scope.vars.newproject='';
+			};
+
+			////////////////////////////////
+			////////////////////////////////
+			$scope.delf = function(feature){
+
+
+			};
+
+
+			////////////////////////////////
+			////////////////////////////////
+			$scope.delproject = function(project){
+				var index=$scope.projects.indexOf(project);
+				$scope.projects.splice(index,1);
+				$scope.features.splice(index,1);
+				$scope.tasks.splice(index,1);
+				$scope.mainshow=true;
+				$scope.message=index;
+
+			};
+			////////////////////////////////
+
+			////////////////////////////////
+			$scope.deltask= function(project){
+				var index=$scope.projects.indexOf(project);
+				$scope.projects.splice(index,1);
+				$scope.features.splice(index,1);
+				$scope.tasks.splice(index,1);
+				$scope.index=index;
+			};
+			////////////////////////////////
+			////////////////////////////////
+			$scope.addfeature = function(project){
+				$scope.features.push({'project': project.name,'name': $scope.vars.newfeature,'show':false,'uid': Math.random(),'puid':project.uid})
+				//alert(project.name);
+				$scope.vars.newfeature='';
+
+
+			};
+			////////////////////////////////
+			////////////////////////////////
+			$scope.delfeature = function(project,feature){
+				var index=$scope.projects.indexOf(feature);
+				$scope.features.splice(index,1);
+				$scope.tasks.splice(index,1);
+				project.show=true;
+
+				$scope.message=feature.name;
+			};
+			////////////////////////////////
+			////////////////////////////////
+			$scope.addtask = function(project,feature){
+				$scope.tasks.push({'project':project.name,'feature':feature.name,'name': $scope.vars.newtask,'uid': Math.random(),'puid':project.uid,'fuid':feature.uid})
+			//	alert(feature.name+'|'+project.name);
+				$scope.vars.newtask='';
+				//alert($scope.newfeature);
+
+			};
+			////////////////////////////////
+			////////////////////////////////
+			$scope.deltask = function(){
+
+			};
+			////////////////////////////////
+			$scope.clear = function(){
+				$scope.projects = $scope.projects.filter(function(project){
+
+					return !project.done;
+
+				})
+
+			};
+			////////////////////////////////
+
+			//$scope.alertshow= function(loc){alert(loc);}
+		}])
+		</script>
+	</body>
+</html>
