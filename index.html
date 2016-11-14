@@ -9,7 +9,6 @@
 			.done{
 				font-style: line-through;
 				color:#aaa;
-
 			}
 			body{
 				font-weight:200;
@@ -108,9 +107,9 @@
 			}
 			.backtxt{
 				font-family: arial;
-font-size: 18px;
-line-height: normal;
-margin-right: 5px;
+				font-size: 18px;
+				line-height: normal;
+				margin-right: 5px;
 			}
 			.title-text{
 
@@ -170,11 +169,9 @@ margin-right: 5px;
 									<div class="search-icon-container">
 
 									</div>
+				 			</div>
 
-
-						 </div>
-
-					 </div>
+					 	</div>
 
 								<div class="sub-panel">
 
@@ -200,10 +197,7 @@ margin-right: 5px;
 								</div>
 						</div>
 				</div>
-		<!---		<button ng-click="clear()">Clear Completed Tasks</button>
-
-
- #############################################--->
+ <!--#############################################--->
 <div class="row" ng-repeat="project in projects" >
 
 		<div class="panel panel-default" ng-show="project.show">
@@ -258,9 +252,6 @@ margin-right: 5px;
 				</div>
 		</div>
 
-
-<!--<button ng-click="clear()">Clear Completed Tasks</button>
-$$$$$$$$$$$$$$$$$$$$$$$$$$-->
 <!--- #############################################--->
 <div class="row" ng-repeat="feature in features |filter:project.name|filter:project.uid|filter:feature.name|filter:feature.uid">
 
@@ -323,14 +314,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 		</div>
 </div>
 
-<!--<button ng-click="clear()">Clear Completed Tasks</button>
-$$$$$$$$$$$$$$$$$$$$$$$$$$-->
+<!--$$$$$$$$$$$$$$$$$$$$$$$$$$-->
 
 </div>
 
 </div>
 
-		<script> //document.write('This is the javascript starting point.');</script>
+
 
 		<script src="js/angular.min.js"></script>
 
@@ -339,19 +329,6 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 		angular.module('PMTool',[]).
 		controller('PMToolcontroller',['$scope',function($scope){
 
-
-			/*$scope.projects=[
-			{name:'project1',
-				features:[{
-					name:'1 feature 1',
-						tasks:[{
-							name:'1 task 1'},{
-							name:'1 task 2'
-							}]
-						}
-					]
-				}
-			]*/
 			$scope.projects=[]
 			$scope.features=[]
 			$scope.tasks=[]
@@ -396,29 +373,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 			};
 
 			/////////////////////////
-		//	consolelog($scope.testarray);
+
 			////////////////////////////////
 			$scope.addproject = function(){
-				$scope.projects.push({'name': $scope.vars.newproject,'show':false,'uid': Math.random()}
-
-			);
-				//alert($scope.vars.newproject);
-
-
-/////////////////////////////////////////////////
-
+				$scope.projects.push({'name': $scope.vars.newproject,'show':false,'uid': Math.random()});
 				$scope.vars.newproject='';
 			};
 
 			////////////////////////////////
-			////////////////////////////////
-			$scope.delf = function(feature){
 
-
-			};
-
-
-			////////////////////////////////
 			////////////////////////////////
 			$scope.delproject = function(project){
 				var index=$scope.projects.indexOf(project);
@@ -483,7 +446,6 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$-->
 			};
 			////////////////////////////////
 
-			//$scope.alertshow= function(loc){alert(loc);}
 		}])
 		</script>
 	</body>
